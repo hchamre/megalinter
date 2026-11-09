@@ -16,7 +16,6 @@ from megalinter.utils_reporter import build_markdown_summary
 class GitlabCommentReporter(Reporter):
     name = "GITLAB_COMMENT"
     scope = "mega-linter"
-    markdown_supports_html_sub = True
 
     def manage_activation(self):
         if not config.exists(

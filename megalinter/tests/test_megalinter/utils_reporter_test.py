@@ -11,8 +11,6 @@ from types import SimpleNamespace
 from unittest.mock import patch
 
 from megalinter import Reporter, config, utilstest
-from megalinter.reporters.GithubCommentReporter import GithubCommentReporter
-from megalinter.reporters.GitlabCommentReporter import GitlabCommentReporter
 from megalinter.utils_reporter import (
     _build_missing_output_message,
     _build_table_content,
@@ -112,9 +110,6 @@ class MarkdownSummaryTest(unittest.TestCase):
         snapshots = Path(utilstest.get_root_dir()) / ".automation/test/markdown_summary"
         self.master.result_message = "One file was updated."
         self.master.validate_all_code_base = False
-        self.master.user_notifications = {
-            "configuration": {"template": "Lint configuration needs attention."}
-        }
         config.set(
             self.request_id, "REPORTERS_ACTION_RUN_URL", "https://ci.example/run/1"
         )
@@ -123,17 +118,10 @@ class MarkdownSummaryTest(unittest.TestCase):
             "JOB_SUMMARY_ADDITIONAL_MARKDOWN",
             "<!-- Project-specific notes -->",
         )
-        for markdown_type, reporter_class in (
-            ("simple", GithubCommentReporter),
-            ("simple", GitlabCommentReporter),
-            ("advanced", GithubCommentReporter),
-        ):
-            with self.subTest(
-                markdown_type=markdown_type, reporter=reporter_class.name
-            ):
+        for markdown_type in ("simple", "advanced"):
+            with self.subTest(markdown_type=markdown_type):
                 config.set(self.request_id, "REPORTERS_MARKDOWN_TYPE", markdown_type)
-                reporter = reporter_class({"master": self.master, "report_folder": ""})
-                summary = build_markdown_summary(reporter)
+                summary = build_markdown_summary(self.reporter)
                 expected = (snapshots / f"expected-{markdown_type}.md").read_text(
                     encoding="utf-8"
                 )

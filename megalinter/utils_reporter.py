@@ -287,13 +287,7 @@ def build_markdown_summary_footer(reporter_self, action_run_url=""):
         if action_run_url != ""
         else "MegaLinter artifacts"
     )
-    footer += (
-        os.linesep
-        + f"View detailed reports in the {reports_link}. "
-        + f"You can [customize this analysis]({ML_DOC_URL}/configuration/) "
-        + "to suit your project."
-        + os.linesep
-    )
+    footer += os.linesep + f"View detailed reports in the {reports_link}." + os.linesep
 
     promotion = _build_markdown_summary_promotion(reporter_self)
     footer += os.linesep + promotion + os.linesep
@@ -325,8 +319,6 @@ def _build_markdown_summary_promotion(reporter_self) -> str:
             "Please consider supporting the project by "
             f"[starring the repository]({ML_REPO_URL})."
         )
-        if getattr(reporter_self, "markdown_supports_html_sub", False):
-            promotion = f"<sub>{promotion}</sub>"
     else:
         promotion = (
             OX_MARKDOWN_LINK
