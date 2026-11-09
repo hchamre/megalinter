@@ -16,6 +16,7 @@ class Reporter:
     # Whether the target platform's markdown renderer accepts <details>/<summary> HTML.
     # Bitbucket Cloud strips raw HTML, so its reporter overrides this to False.
     markdown_supports_html_details: bool = True
+    markdown_supports_html_sub: bool = False
 
     # Constructor: Initialize Linter instance with name and config variables
     def __init__(self, params=None):

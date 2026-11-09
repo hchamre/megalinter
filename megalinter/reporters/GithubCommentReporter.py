@@ -16,6 +16,7 @@ from megalinter.utils_reporter import build_markdown_summary
 class GithubCommentReporter(Reporter):
     name = "GITHUB_COMMENT"
     scope = "mega-linter"
+    markdown_supports_html_sub = True
 
     issues_root = ML_REPO_URL + "/issues"
 
